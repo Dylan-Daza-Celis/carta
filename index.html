@@ -302,7 +302,7 @@
             }
         }
         .particle.exploding {
-            animation: explode 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation: explode 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
         .constellation-point {
             position: absolute;
@@ -1004,7 +1004,7 @@ Te amo con todo mi corazón.`;
 
         function triggerHeartExplosion() {
             heartExplosion.style.color = '#ffffff';
-            heartExplosion.style.animation = 'pulse 0.6s ease-out';
+            heartExplosion.style.animation = 'pulse 1.2s ease-out';
             
             setTimeout(() => {
                 // Efecto blanco y aumento
@@ -1033,7 +1033,7 @@ Te amo con todo mi corazón.`;
                     document.body.appendChild(particle);
                     particle.classList.add('exploding');
 
-                    setTimeout(() => particle.remove(), 1200);
+                    setTimeout(() => particle.remove(), 2500);
                 }
 
                 // Ocultar corazón original
@@ -1045,7 +1045,7 @@ Te amo con todo mi corazón.`;
                     navigator.vibrate([50, 30, 50]);
                 }
 
-            }, 600);
+            }, 1200);
         }
 
         // ========== CORAZONES FLOTANTES ==========
