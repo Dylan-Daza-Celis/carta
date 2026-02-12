@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Un Detalle Para Ti 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background: linear-gradient(135deg, #1a0a14 0%, #2d1f2d 50%, #1a0a14 100%);
+            color: #f8e8ee;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Corazones flotantes animados */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.15;
+            animation: floatHeart 15s infinite ease-in-out;
+        }
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        /* Estrellas brillantes */
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
+        /* Encabezado con foto principal */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+        .photo-frame {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #ff6b9d, #ffc1cc);
+            background-size: 300% 300%;
+            border-radius: 50%;
+            animation: gradientShift 4s ease infinite;
+            z-index: -1;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .main-photo {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #1a0a14;
+            box-shadow: 0 0 40px rgba(255, 107, 157, 0.4);
+            transition: transform 0.5s ease;
+        }
+        .main-photo:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+        .title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #ff9ec4;
+            text-shadow: 0 0 30px rgba(255, 158, 196, 0.5);
+            margin-bottom: 16px;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 158, 196, 0.4); }
+            to { text-shadow: 0 0 40px rgba(255, 158, 196, 0.8), 0 0 60px rgba(255, 107, 157, 0.4); }
+        }
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #e8c4d4;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        /* Sección de cita romántica */
+        .love-quote {
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+        }
+        .love-quote::before {
+            content: '"';
+            font-family: 'Great Vibes', cursive;
+            font-size: 8rem;
+            color: rgba(255, 107, 157, 0.15);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            color: #ffc1cc;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+        /* Título de sección */
+        .section-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff9ec4;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff6b9d, transparent);
+            margin: 15px auto 0;
+        }
+        /* Easter eggs flotantes */
+        .easter-egg {
+            position: fixed;
+            font-size: 1.8rem;
+            opacity: 0.12;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            filter: grayscale(50%);
+        }
+        .easter-egg:hover {
+            opacity: 1;
+            transform: scale(1.8) rotate(10deg);
+            filter: grayscale(0%) drop-shadow(0 0 20px rgba(255, 107, 157, 0.8));
+            z-index: 100;
+        }
+        .easter-egg .tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, #2d1f2d, #1a0a14);
+            border: 1px solid rgba(255, 158, 196, 0.4);
+            color: #ffc1cc;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(10px);
+            top: 100%;
+            left: 50%;
+            margin-left: -80px;
+            min-width: 160px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .easter-egg:hover .tooltip {
+            opacity: 1;
+            transform: translateY(5px);
+        }
+        /* Mini iconos decorativos inline */
+        .secret-icon {
+            display: inline-block;
+            font-size: 0.9em;
+            opacity: 0.4;
+            transition: all 0.4s ease;
+            cursor: help;
+            position: relative;
+        }
+        .secret-icon:hover {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+        .secret-icon::after {
+            content: attr(data-secret);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: rgba(45, 31, 45, 0.95);
+            border: 1px solid rgba(255, 158, 196, 0.3);
+            color: #ffc1cc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-family: 'Lora', serif;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .secret-icon:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        /* Elemento clicable secreto */
+        .hidden-memory {
+            position: relative;
+            display: inline-block;
+        }
+        .hidden-memory::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .hidden-memory:hover::before {
+            opacity: 1;
+            animation: ripple 1s infinite;
+        }
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        /* Sección de carreras */
+        .careers-section {
+            padding: 40px 0;
+        }
+        .careers-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .career-card {
+            background: linear-gradient(145deg, rgba(147, 112, 219, 0.15), rgba(106, 90, 205, 0.1));
+            border: 1px solid rgba(186, 85, 211, 0.3);
+            border-radius: 25px;
+            padding: 35px 30px;
+            min-width: 300px;
+            max-width: 380px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .career-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 50px rgba(186, 85, 211, 0.25);
+        }
+        .career-card.dance {
+            background: linear-gradient(145deg, rgba(255, 182, 193, 0.15), rgba(255, 105, 180, 0.1));
+            border-color: rgba(255, 182, 193, 0.4);
+        }
+        .career-card.dance:hover {
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.25);
+        }
+        .career-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .career-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #e8c4d4;
+            margin-bottom: 8px;
+        }
+        .career-subtitle {
+            font-size: 1rem;
+            color: #c4a5b5;
+            font-style: italic;
+        }
+        .career-desc {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            color: #d4b5c5;
+            line-height: 1.6;
+        }
+        /* Unión de amor (centro entre carreras) */
+        .love-union {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #ff6b9d;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin: 0 -20px;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        /* Sección de música */
+        .music-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, transparent, rgba(255, 107, 157, 0.05), transparent);
+            border-radius: 30px;
+            margin: 30px 0;
+        }
+        .sax-icons {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .sax-icons span {
+            animation: float 3s ease-in-out infinite;
+        }
+        .sax-icons span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .music-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #ffc1cc;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .music-subtext {
+            font-size: 1rem;
+            color: #c4a5b5;
+            margin-bottom: 30px;
+        }
+        .spotify-container {
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .play-hint {
+            font-size: 0.9rem;
+            color: #a08595;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        /* Mensaje final */
+        .final-message {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+        .final-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #ff9ec4;
+            margin-bottom: 25px;
+            text-shadow: 0 0 30px rgba(255, 158, 196, 0.4);
+        }
+        .final-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #e8c4d4;
+            line-height: 2;
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+        .heart-big {
+            font-size: 4rem;
+            display: inline-block;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+        }
+        /* Decoración de rosas */
+        .rose-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            font-size: 2rem;
+        }
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #8a6a7a;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 158, 196, 0.1);
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .title { font-size: 2.8rem; }
+            .section-title { font-size: 2.2rem; }
+            .careers-container { flex-direction: column; align-items: center; }
+            .love-union { margin: 10px 0; transform: rotate(90deg); }
+            .main-photo { width: 200px; height: 200px; }
+            .quote-text { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Corazones flotantes de fondo -->
+    <div class="hearts-bg" id="hearts"></div>
+    
+    <div class="container">
+        <!-- Hero con foto principal -->
+        <section class="hero">
+            <div class="photo-frame">
+                <!-- Cambia esta imagen por una foto de ustedes dos -->
+                <img class="main-photo" src="imagen.jpeg" alt="Nosotros">
+            </div>
+            <h1 class="title">Para Ti, Mi Vida</h1>
+            <p class="subtitle">Cada momento a tu lado es un regalo que atesoro en mi corazón. Gracias por <span class="secret-icon" data-secret="Como nuestras tardes de pintura juntos 🎨">pintar</span> mi vida de los colores más hermosos.</p>
+        </section>
+
+        <!-- Cita romántica -->
+        <section class="love-quote">
+            <p class="quote-text">Contigo aprendí que el amor no se busca, se encuentra en los <span class="hidden-memory">ojos</span> de la persona indicada. Y yo te encontré a ti, entre <span class="secret-icon" data-secret="En las calles de nuestras citas 🏙️">calles llenas de historia</span>.</p>
+        </section>
+
+        <div class="rose-decoration">
+            <span class="secret-icon" data-secret="Nuestras tardes de pintura 🎨">🌹</span>
+            <span>💕</span>
+            <span class="secret-icon" data-secret="El arte nos unió 💖">🌹</span>
+        </div>
+
+        <!-- Nuestras carreras -->
+        <section class="careers-section">
+            <h2 class="section-title">Nuestros Mundos</h2>
+            <div class="careers-container">
+                <div class="career-card dance">
+                    <span class="career-icon">💃</span>
+                    <h3 class="career-title">La Bailarina</h3>
+                    <p class="career-subtitle">Tu mundo de gracia y expresión</p>
+                    <p class="career-desc">Tu pasión por la danza me enseña que la vida es movimiento, ritmo y expresión. Eres poesía hecha movimiento, y cada paso tuyo me enamora más.</p>
+                </div>
+                <div class="love-union">❤️</div>
+                <div class="career-card">
+                    <span class="career-icon">💻</span>
+                    <h3 class="career-title">El Ingeniero</h3>
+                    <p class="career-subtitle">Mi mundo de lógica y matemáticas</p>
+                    <p class="career-desc">En mi mundo de algoritmos y código, tú eres la variable más hermosa, la función que da sentido a todo, el programa perfecto que nunca terminará.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Música y saxofón -->
+        <section class="music-section">
+            <h2 class="section-title">Nuestra Melodía</h2>
+            <div class="sax-icons">
+                <span>🎷</span>
+                <span>💕</span>
+                <span>🎷</span>
+            </div>
+            <p class="music-text">Dos saxofones alto, dos corazones, una sola melodía de amor</p>
+            <p class="music-subtext">La música nos conecta de maneras que las palabras no pueden expresar. Cuando tocamos juntos, nuestras almas <span class="secret-icon" data-secret="Como cuando visitamos el Museo del Barroco 🏛️">danzan</span> al mismo compás.</p>
+            <div class="spotify-container">
+                <!-- Cambia por tu canción o playlist favorita de Spotify -->
+                <iframe style="border-radius:12px" 
+                id="spotify-player"
+                src="https://open.spotify.com/embed/track/671sG3ETDxC3L6qcGIrHRM?utm_source=generator&autoplay=1" 
+                width="100%" 
+                height="152" 
+                frameborder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" 
+                loading="lazy"
+                ></iframe>
+            </div>
+            <p class="play-hint">🎵 Dale play para que suene nuestra canción 🎵</p>
+        </section>
+
+        <!-- Mensaje final -->
+        <section class="final-message">
+            <h2 class="final-title">Te Amo Infinitamente</h2>
+            <p class="final-text">
+                Gracias por cada <span class="secret-icon" data-secret="Pizza y hamburguesas juntos 🍕🍔">salida</span>, cada abrazo, cada momento a tu lado.<br>
+                Eres la danza de mi vida, la música de mi corazón,<br>
+                y el código perfecto de mi <span class="secret-icon" data-secret="Como el reflejo del lago donde paseamos 🌅">felicidad</span>.<br>
+                <strong>Contigo, siempre.</strong>
+            </p>
+            <span class="heart-big">❤️</span>
+            <div class="rose-decoration">
+                <span>🌹</span><span>🌹</span><span>🌹</span>
+            </div>
+        </section>
+
+        <footer class="footer">
+            Hecho con todo mi amor, para ti 💖
+        </footer>
+    </div>
+
+    <audio id="bg-music" src="cancion.mp3" preload="auto"></audio>
+
+    <script>
+
+        const music = document.getElementById("bg-music");
+
+        function startMusic() {
+            music.play().catch(err => console.log("Autoplay bloqueado"));
+            document.removeEventListener("click", startMusic);
+        }
+        document.addEventListener("click", startMusic);
+
+        window.addEventListener("blur", function () {
+            if (document.activeElement === document.getElementById("spotify-player")) {
+                music.pause();
+            }
+        });
+
+        // Crear corazones flotantes
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '🤍', '💜'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (10 + Math.random() * 15) + 's';
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                heart.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+                container.appendChild(heart);
+            }
+        }
+
+        // Crear destellos brillantes
+        function createSparkles() {
+            const body = document.body;
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                body.appendChild(sparkle);
+            }
+        }
+
+        createHearts();
+        createSparkles();
+
+        // Crear Easter Eggs flotantes
+        function createEasterEggs() {
+            const eggs = [
+                { icon: '🏛️', text: 'Museo del Barroco: donde el arte nos unió', top: '15%', left: '8%' },
+                { icon: '🏙️', text: 'Centro Histórico: calles llenas de nuestro amor', top: '35%', right: '5%' },
+                { icon: '🍕', text: 'Pizza y risas infinitas juntos', bottom: '25%', left: '3%' },
+                { icon: '🍔', text: 'Hamburguesas: la comida sabe mejor contigo', top: '60%', right: '8%' },
+                { icon: '🌅', text: 'El lago: tu sonrisa es mi mejor reflejo', bottom: '40%', right: '3%' },
+                { icon: '🎨', text: 'Tardes de pintura: juntos creamos arte', top: '75%', left: '6%' }
+            ];
+
+            eggs.forEach((egg, i) => {
+                const el = document.createElement('div');
+                el.className = 'easter-egg';
+                el.innerHTML = `${egg.icon}<span class="tooltip">${egg.text}</span>`;
+                if (egg.top) el.style.top = egg.top;
+                if (egg.bottom) el.style.bottom = egg.bottom;
+                if (egg.left) el.style.left = egg.left;
+                if (egg.right) el.style.right = egg.right;
+                el.style.animationDelay = (i * 0.5) + 's';
+                document.body.appendChild(el);
+            });
+        }
+
+        createEasterEggs();
+
+        // Efecto de brillo al encontrar un easter egg
+        document.querySelectorAll('.secret-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                icon.style.textShadow = '0 0 15px rgba(255, 107, 157, 0.8)';
+            });
+            icon.addEventListener('mouseleave', () => {
+                icon.style.textShadow = 'none';
+            });
+        });
+    </script>
