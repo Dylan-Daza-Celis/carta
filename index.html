@@ -18,6 +18,77 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
+        
+        /* ========== PANTALLA DE ENTRADA CINEMATOGRAFICA ========== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .splash-content {
+            text-align: center;
+            animation: fadeInSplash 1s ease-in-out;
+        }
+        @keyframes fadeInSplash {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .splash-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #ffc1cc;
+            margin-bottom: 60px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 193, 204, 0.3);
+        }
+        .splash-button {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #ff9ec4;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(255, 182, 193, 0.1));
+            border: 2px solid #ff9ec4;
+            padding: 16px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .splash-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 193, 204, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        .splash-button:hover::before {
+            left: 100%;
+        }
+        .splash-button:hover {
+            border-color: #ffc1cc;
+            color: #ffc1cc;
+            box-shadow: 0 0 30px rgba(255, 158, 196, 0.4);
+            transform: scale(1.05);
+        }
         /* Corazones flotantes animados */
         .hearts-bg {
             position: fixed;
@@ -34,6 +105,7 @@
             font-size: 1.5rem;
             opacity: 0.15;
             animation: floatHeart 15s infinite ease-in-out;
+            will-change: transform; /* Optimización de rendimiento móvil */
         }
         @keyframes floatHeart {
             0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
@@ -55,6 +127,201 @@
             0%, 100% { opacity: 0.2; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.5); }
         }
+        
+        /* ========== PARALLAX Y PROFUNDIDAD ========== */
+        .parallax-layer {
+            position: relative;
+            will-change: transform;
+        }
+        .parallax-slow {
+            transform: translateY(var(--parallax-offset, 0px));
+        }
+        
+        /* ========== CONSTELACION DE RECUERDOS ========== */
+        .constellation-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .constellation-svg.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .constellation-line {
+            stroke: #ff9ec4;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0;
+            animation: drawLine 1s ease-out forwards;
+        }
+        @keyframes drawLine {
+            from { opacity: 0; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+            to { opacity: 0.6; stroke-dasharray: 1000; stroke-dashoffset: 0; }
+        }
+        .memory-tag {
+            position: absolute;
+            background: rgba(45, 31, 45, 0.95);
+            border: 1px solid #ff9ec4;
+            color: #ffc1cc;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            opacity: 0;
+            animation: popIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(255, 158, 196, 0.4);
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.5) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        /* ========== CARTA DESPLEGABLE ========== */
+        .secret-letter-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: 2px solid #ffc1cc;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+            animation: breathe 2s ease-in-out infinite;
+        }
+        .secret-letter-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(255, 107, 157, 0.6);
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .letter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 8000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .letter-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .letter-container {
+            background: linear-gradient(135deg, #f5e6d3, #f9f0e6);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            padding: 50px 40px;
+            position: relative;
+            animation: openLetter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        @keyframes openLetter {
+            0% {
+                transform: rotateX(90deg) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: rotateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+        .letter-content {
+            color: #4a3728;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            line-height: 2;
+            text-align: justify;
+            min-height: 300px;
+        }
+        .letter-content p {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .typed-text {
+            position: relative;
+        }
+        .letter-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #c44569;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+        .letter-close:hover {
+            transform: scale(1.3);
+        }
+        
+        /* ========== EXPLOSIÓN DE CORAZON Y PARTICULAS ========== */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2rem;
+        }
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        .particle.exploding {
+            animation: explode 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .constellation-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff9ec4;
+            opacity: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 20px #ff9ec4;
+        }
+        .constellation-point.active {
+            opacity: 1;
+            animation: twinkle 1.5s ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -67,11 +334,14 @@
             text-align: center;
             padding: 60px 20px 40px;
             position: relative;
+            perspective: 1000px;
         }
         .photo-frame {
             position: relative;
             display: inline-block;
             margin-bottom: 30px;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
         .photo-frame::before {
             content: '';
@@ -98,7 +368,8 @@
             border-radius: 50%;
             border: 5px solid #1a0a14;
             box-shadow: 0 0 40px rgba(255, 107, 157, 0.4);
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
+            will-change: transform;
         }
         .main-photo:hover {
             transform: scale(1.05) rotate(3deg);
@@ -444,8 +715,20 @@
     </style>
 </head>
 <body>
+    <!-- PANTALLA DE ENTRADA CINEMATOGRAFICA -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <p class="splash-text">✨ Hay algo que quiero que veas… ✨</p>
+            <p class="splash-text">Sube el volumen</p>
+            <button class="splash-button" id="splashBtn">❤️‍🩹 Tocar para comenzar ❤️‍🩹</button>
+        </div>
+    </div>
+
     <!-- Corazones flotantes de fondo -->
     <div class="hearts-bg" id="hearts"></div>
+    
+    <!-- SVG para constelación de recuerdos -->
+    <svg class="constellation-svg" id="constellationSvg"></svg>
     
     <div class="container">
         <!-- Hero con foto principal -->
@@ -523,10 +806,11 @@
                 y el código perfecto de mi <span class="secret-icon" data-secret="Como el reflejo del lago donde paseamos 🌅">felicidad</span>.<br>
                 <strong>Contigo, siempre.</strong>
             </p>
-            <span class="heart-big">❤️</span>
+            <span class="heart-big" id="heartExplosion">❤️</span>
             <div class="rose-decoration">
                 <span>🌹</span><span>🌹</span><span>🌹</span>
             </div>
+            <p style="margin-top: 40px; font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #ffc1cc; opacity: 0; animation: fadeInDelayed 0.8s ease-out 1.5s forwards;">¿Bailamos esta vida juntos?</p>
         </section>
 
         <footer class="footer">
@@ -534,28 +818,255 @@
         </footer>
     </div>
 
+    <!-- MODAL CARTA SECRETA -->
+    <div class="letter-modal" id="letterModal">
+        <div class="letter-container">
+            <button class="letter-close" onclick="closeLetter()">✕</button>
+            <div class="letter-content" id="letterContent">
+                <p class="typed-text">Aquí irá tu carta. Editala en el código.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTON CARTA SECRETA -->
+    <button class="secret-letter-btn" id="secretLetterBtn" title="Hay algo más...">💌</button>
+    
     <audio id="bg-music" src="cancion.mp3" preload="auto"></audio>
 
     <script>
 
-        const music = document.getElementById("bg-music");
+        // ========== PANTALLA DE ENTRADA CINEMATOGRAFICA ==========
+        const splashScreen = document.getElementById('splashScreen');
+        const splashBtn = document.getElementById('splashBtn');
+        const bgMusic = document.getElementById('bg-music');
 
-        function startMusic() {
-            music.play().catch(err => console.log("Autoplay bloqueado"));
-            document.removeEventListener("click", startMusic);
-        }
-        document.addEventListener("click", startMusic);
+        splashBtn.addEventListener('click', () => {
+            splashScreen.classList.add('hidden');
+            bgMusic.play().catch(err => console.log("Autoplay bloqueado"));
+        });
 
-        window.addEventListener("blur", function () {
-            if (document.activeElement === document.getElementById("spotify-player")) {
-                music.pause();
+        // Si hay interacción antes del botón, también inicia
+        document.addEventListener('click', (e) => {
+            if (!splashScreen.classList.contains('hidden') && e.target !== splashBtn) {
+                splashBtn.click();
+            }
+        }, { once: true });
+
+        // ========== ANIMACION FADE IN KEYFRAME ==========
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInDelayed {
+                0% { opacity: 0; transform: translateY(-10px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ========== PARALLAX EN SCROLL ==========
+        const parallaxElements = document.querySelectorAll('.parallax-slow');
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY;
+            parallaxElements.forEach(el => {
+                const offset = scrollPercent * 0.5;
+                el.style.setProperty('--parallax-offset', offset + 'px');
+            });
+            
+            // Control de volumen según scroll
+            const scrollRatio = scrollPercent / (document.documentElement.scrollHeight - window.innerHeight);
+            if (bgMusic && !bgMusic.paused) {
+                bgMusic.volume = Math.max(0.3, 1 - scrollRatio * 0.3);
             }
         });
 
-        // Crear corazones flotantes
+        // ========== TILT 3D EN FOTO PRINCIPAL ==========
+        const photoFrame = document.querySelector('.photo-frame');
+        document.addEventListener('mousemove', (e) => {
+            if (!photoFrame) return;
+            const rect = photoFrame.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = (y / rect.height) * 15;
+            const rotateY = -(x / rect.width) * 15;
+            photoFrame.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        document.addEventListener('mouseleave', () => {
+            if (photoFrame) photoFrame.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+
+        // En móvil, suavizar el tilt
+        if (window.innerWidth <= 768) {
+            photoFrame?.style.setProperty('--perspective-depth', '500px');
+        }
+
+        // ========== CONSTELACION DE RECUERDOS ==========
+        const constellationSvg = document.getElementById('constellationSvg');
+        const secretIcons = document.querySelectorAll('.secret-icon, .hidden-memory');
+        const activatedPoints = new Set();
+
+        secretIcons.forEach((icon, index) => {
+            icon.addEventListener('click', (e) => {
+                e.preventDefault();
+                const rect = icon.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                activateConstellationPoint(x, y, index);
+            });
+        });
+
+        function activateConstellationPoint(x, y, index) {
+            if (activatedPoints.has(index)) return;
+            activatedPoints.add(index);
+
+            // Animar punto
+            const point = document.createElement('div');
+            point.className = 'constellation-point active';
+            point.style.left = x + 'px';
+            point.style.top = y + 'px';
+            document.body.appendChild(point);
+
+            // Dibujar líneas a puntos aleatorios si hay múltiples puntos
+            if (activatedPoints.size > 1) {
+                const points = Array.from(activatedPoints);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                const lastPoint = points[points.length - 2];
+                const lastIcon = Array.from(secretIcons)[lastPoint];
+                const lastRect = lastIcon.getBoundingClientRect();
+                const lastX = lastRect.left + lastRect.width / 2;
+                const lastY = lastRect.top + lastRect.height / 2;
+
+                line.setAttribute('x1', lastX);
+                line.setAttribute('y1', lastY);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', '#ff9ec4');
+                line.setAttribute('stroke-width', '2');
+                line.setAttribute('class', 'constellation-line');
+                constellationSvg.appendChild(line);
+            }
+
+            // Mostrar mensaje pequeño
+            const tag = document.createElement('div');
+            tag.className = 'memory-tag';
+            tag.textContent = '✨ Aquí empezó todo...';
+            tag.style.left = (x + 30) + 'px';
+            tag.style.top = (y - 30) + 'px';
+            document.body.appendChild(tag);
+
+            setTimeout(() => tag.remove(), 3000);
+
+            // Vibración en móvil
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // ========== CARTA DESPLEGABLE ==========
+        const letterBtn = document.getElementById('secretLetterBtn');
+        const letterModal = document.getElementById('letterModal');
+        const letterContent = document.getElementById('letterContent');
+
+        letterBtn.addEventListener('click', () => {
+            letterModal.classList.add('open');
+            typeLetterContent();
+        });
+
+        function closeLetter() {
+            letterModal.classList.remove('open');
+        }
+
+        letterModal.addEventListener('click', (e) => {
+            if (e.target === letterModal) closeLetter();
+        });
+
+        function typeLetterContent() {
+            const text = `Mi vida,
+
+No sé en qué momento pasaste de ser alguien especial a convertirte en mi lugar favorito. Me importas más de lo que sé explicar con palabras. 
+
+Me importas en lo simple: en cómo te pienso durante el día, en cómo quiero contarte todo lo que me pasa, en cómo me nace cuidarte y verte feliz.
+
+No eres una casualidad en mi vida. Eres una decisión constante. Y cada día que pasa, te elijo con más certeza.
+
+Si me enamoré de ti, no fue por lo que vieron mis ojos, sino por lo que sentí en el alma. Eres la melodía que le da sentido a mi vida, el código perfecto que nunca quiero depurar.
+
+Te quiero profundamente.`;
+
+            let charIndex = 0;
+            letterContent.innerHTML = '';
+            const paras = text.split('\n\n');
+
+            function typeNextChar() {
+                if (charIndex < text.length) {
+                    letterContent.textContent += text[charIndex];
+                    charIndex++;
+                    setTimeout(typeNextChar, 30);
+                }
+            }
+
+            typeNextChar();
+        }
+
+        // ========== EXPLOSIÓN DE CORAZON FINAL ==========
+        const heartExplosion = document.getElementById('heartExplosion');
+        let explosionTriggered = false;
+
+        window.addEventListener('scroll', () => {
+            if (!explosionTriggered && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 200) {
+                explosionTriggered = true;
+                triggerHeartExplosion();
+            }
+        });
+
+        function triggerHeartExplosion() {
+            heartExplosion.style.color = '#ffffff';
+            heartExplosion.style.animation = 'pulse 0.6s ease-out';
+            
+            setTimeout(() => {
+                // Efecto blanco y aumento
+                heartExplosion.style.transform = 'scale(2)';
+                
+                // Crear partículas que explotan
+                const rect = heartExplosion.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.innerHTML = '❤️‍🩹';
+                    
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const velocity = 4 + Math.random() * 6;
+                    const tx = Math.cos(angle) * velocity * 100;
+                    const ty = Math.sin(angle) * velocity * 100;
+
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    document.body.appendChild(particle);
+                    particle.classList.add('exploding');
+
+                    setTimeout(() => particle.remove(), 1200);
+                }
+
+                // Ocultar corazón original
+                heartExplosion.style.opacity = '0';
+                heartExplosion.style.pointerEvents = 'none';
+
+                // Vibración final en móvil
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 30, 50]);
+                }
+
+            }, 600);
+        }
+
+        // ========== CORAZONES FLOTANTES ==========
         function createHearts() {
             const container = document.getElementById('hearts');
-            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '🤍', '💜'];
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '❤️‍🩹', '💜'];
             
             for (let i = 0; i < 25; i++) {
                 const heart = document.createElement('div');
@@ -620,4 +1131,19 @@
                 icon.style.textShadow = 'none';
             });
         });
+
+        // ========== OPTIMIZACION PARA MOVIL ==========
+        if (window.innerWidth <= 768) {
+            // Reducir cantidad de animaciones en móvil
+            document.querySelectorAll('.heart').forEach((heart, i) => {
+                if (i % 2 === 0) heart.style.display = 'none';
+            });
+            
+            // Desactivar parallax agresivo en móvil
+            document.querySelectorAll('.parallax-slow').forEach(el => {
+                el.style.setProperty('--parallax-offset', '0px');
+            });
+        }
     </script>
+</body>
+</html>
