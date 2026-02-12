@@ -711,6 +711,8 @@
             .love-union { margin: 10px 0; transform: rotate(90deg); }
             .main-photo { width: 200px; height: 200px; }
             .quote-text { font-size: 1.3rem; }
+            .splash-text { font-size: 1.5rem; margin-bottom: 30px; }
+            .splash-button { font-size: 0.9rem; padding: 12px 30px; }
         }
     </style>
 </head>
@@ -878,25 +880,8 @@
             }
         });
 
-        // ========== TILT 3D EN FOTO PRINCIPAL ==========
-        const photoFrame = document.querySelector('.photo-frame');
-        document.addEventListener('mousemove', (e) => {
-            if (!photoFrame) return;
-            const rect = photoFrame.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = (y / rect.height) * 15;
-            const rotateY = -(x / rect.width) * 15;
-            photoFrame.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        document.addEventListener('mouseleave', () => {
-            if (photoFrame) photoFrame.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-        });
-
-        // En móvil, suavizar el tilt
-        if (window.innerWidth <= 768) {
-            photoFrame?.style.setProperty('--perspective-depth', '500px');
-        }
+        // Foto estática - sin tilt 3D al mover mouse
+        // El efecto hover (scale y rotate) se mantiene en CSS
 
         // ========== CONSTELACION DE RECUERDOS ==========
         const constellationSvg = document.getElementById('constellationSvg');
